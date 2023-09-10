@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { LoginPage } from "../pom/login.page";
+import { HomePage } from "../pom/home.page";
+import { validUser, invalidUsers } from "../fixtures/User";
 // test("get twittah", async ({ page }) => {
 //   await page.goto("https://twittah.web.app");
 //   await expect(page.getByTestId("app-name")).toBeVisible();
@@ -19,12 +21,36 @@ test("get login", async ({ page }) => {
   await expect(page.getByTestId("app-name")).toHaveText("Twittah!");
 });
 
-test("login with POM",async ({page}) => {
+test.describe("Login", async () => {
+  let loginPage;
+  let homePage;
 
-    const loginPage = new LoginPage(page);
+  test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
+    homePage = new HomePage(page);
 
     await loginPage.getTwittah();
-    await loginPage.login();
+});
+
+test("login with POM", async () => {
+    await loginPage.login(validUser.username, validUser.password);
     await loginPage.logout();
     await loginPage.shouldBeDisplay();
-})
+  });
+
+  test("should able to tweet", async() => {
+    await loginPage.login(validUser.username, validUser.password);
+    await homePage.postMessage();
+  });
+
+
+
+  for (let invalidUser of invalidUsers) {
+    test(`invalid user should not able to login ${invalidUser.displayname}`,async () => {
+        await loginPage.login(invalidUser.username, invalidUser.password);
+        await loginPage.shouldBeDisplayInvalidLogin();
+      })
+
+  }
+
+});
