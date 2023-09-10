@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { LoginPage } from "../pom/login.page";
 // test("get twittah", async ({ page }) => {
 //   await page.goto("https://twittah.web.app");
 //   await expect(page.getByTestId("app-name")).toBeVisible();
@@ -17,3 +18,13 @@ test("get login", async ({ page }) => {
   await page.getByTestId("menu-signout").click();
   await expect(page.getByTestId("app-name")).toHaveText("Twittah!");
 });
+
+test("login with POM",async ({page}) => {
+
+    const loginPage = new LoginPage(page);
+
+    await loginPage.getTwittah();
+    await loginPage.login();
+    await loginPage.logout();
+    await loginPage.shouldBeDisplay();
+})

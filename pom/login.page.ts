@@ -2,7 +2,7 @@ import { Locator, Page, expect } from "@playwright/test";
 import { validUser } from "../fixtures/User";
 import { app} from '../fixtures/App'
 
-export class loginPage {
+export class LoginPage {
   readonly _page: Page;
   readonly _usernameInput: Locator;
   readonly _passwordInput: Locator;
@@ -17,7 +17,7 @@ export class loginPage {
     this._usernameInput = page.getByTestId("login-field");
     this._passwordInput = page.getByTestId("password-field");
     this._loginButton = page.getByTestId('login-button');
-    this._loginButton = page.getByTestId('menu-signout');
+    this._logoutButton = page.getByTestId('menu-signout');
     this._logo = page.getByTestId('app-name');
   }
 
