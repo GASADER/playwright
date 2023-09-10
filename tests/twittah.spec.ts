@@ -30,27 +30,23 @@ test.describe("Login", async () => {
     homePage = new HomePage(page);
 
     await loginPage.getTwittah();
-});
+  });
 
-test("login with POM", async () => {
+  test("login with POM", async () => {
     await loginPage.login(validUser.username, validUser.password);
     await loginPage.logout();
     await loginPage.shouldBeDisplay();
   });
 
-  test("should able to tweet", async() => {
+  test("should able to tweet", async () => {
     await loginPage.login(validUser.username, validUser.password);
     await homePage.postMessage();
   });
 
-
-
   for (let invalidUser of invalidUsers) {
-    test(`invalid user should not able to login ${invalidUser.displayname}`,async () => {
-        await loginPage.login(invalidUser.username, invalidUser.password);
-        await loginPage.shouldBeDisplayInvalidLogin();
-      })
-
+    test(`invalid user should not able to login ${invalidUser.displayname}`, async () => {
+      await loginPage.login(invalidUser.username, invalidUser.password);
+      await loginPage.shouldBeDisplayInvalidLogin();
+    });
   }
-
 });
